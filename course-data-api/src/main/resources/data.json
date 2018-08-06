@@ -1,0 +1,32 @@
+[
+    {
+        "id": "spring",
+        "name": "Spring Framework",
+        "description": "Learn spring framework"
+    },
+    {
+        "id": "corejava",
+        "name": "Core Java",
+        "description": "Learn core java"
+    },
+    {
+        "id": "javascript",
+        "name": "Java Script",
+        "description": "Learn java script"
+    },
+    {
+        "id": "python",
+        "name": "Python 3.0",
+        "description": "Learn Python"
+    },
+   	{
+        "id": "stream",
+        "name": "Java Stream",
+        "description": "Learn Java 8 Stream API"
+    },
+    {
+        "id": "exception",
+        "name": "Exception Handling",
+        "description": "Exception Handling In java"
+    }   
+]
