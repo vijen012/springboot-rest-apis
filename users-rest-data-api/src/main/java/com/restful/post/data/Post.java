@@ -21,7 +21,7 @@ public class Post {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@ApiModelProperty(notes = "should not be blank or null")
 	@NotBlank
 	@NotEmpty
@@ -30,6 +30,16 @@ public class Post {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private User user;
+
+	public Post() {
+
+	}
+
+	public Post(Long id, @NotBlank @NotEmpty String comment) {
+		super();
+		this.id = id;
+		this.comment = comment;
+	}
 
 	public Long getId() {
 		return id;
@@ -59,5 +69,5 @@ public class Post {
 	public String toString() {
 		return "Post [id=" + id + ", comment=" + comment + "]";
 	}
-	
+
 }
