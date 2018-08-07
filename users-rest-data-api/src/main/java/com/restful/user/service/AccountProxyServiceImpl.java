@@ -1,5 +1,6 @@
 package com.restful.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +17,15 @@ import com.restful.user.data.Account;
 @Service
 public class AccountProxyServiceImpl implements AccountProxyService {
 
+	private final RestTemplate restTemplate;
+
 	@Value("${accountServiceUrl}")
 	private String accountServiceUrl;
+
+	@Autowired
+	public AccountProxyServiceImpl(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
 
 	public void setAccountServiceUrl(String accountServiceUrl) {
 		this.accountServiceUrl = accountServiceUrl;
@@ -29,7 +37,7 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
-		RestTemplate restTemplate = new RestTemplate();
+//		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Account> responseEntity = null;
 		try {
 			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Account.class);

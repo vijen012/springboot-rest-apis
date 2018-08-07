@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.web.client.RestTemplate;
 
 import com.restful.user.data.Account;
 
@@ -29,7 +30,7 @@ public class AccountProxyServiceImplTest {
 		 * initJadler(); MockitoAnnotations.initMocks(this);
 		 */
 		initJadlerUsing(new JdkStubHttpServer());
-		accountProxyServiceImpl = new AccountProxyServiceImpl();
+		accountProxyServiceImpl = new AccountProxyServiceImpl(new RestTemplate());
 	}
 
 	@After
