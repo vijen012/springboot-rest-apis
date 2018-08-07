@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -48,8 +49,8 @@ public class UserControllerTest {
 	@MockBean
 	private UserService userService;
 
-//	@MockBean
-//	private RestTemplate restTemplate;
+	@MockBean
+	private RestTemplate restTemplate;
 
 	private List<User> userList = Stream
 			.of(new User(101L, "Martin", "Hussy", "martin.hussy@gmail.com", LocalDate.of(2016, 6, 12)),
