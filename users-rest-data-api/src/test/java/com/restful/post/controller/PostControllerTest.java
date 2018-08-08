@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,7 +28,6 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.restful.post.data.Post;
 import com.restful.post.service.PostService;
 
@@ -49,18 +49,17 @@ public class PostControllerTest {
 
 	private List<Post> postList = Stream.of(new Post(201L, "first comment"), new Post(201L, "first comment"))
 			.collect(Collectors.toList());
+	private Post post = new Post(201L, "first Comment");
 
 	@Before
 	public void setUp() {
 		// Set pretty printing of json
 		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-		objectMapper.registerModule(new JavaTimeModule());
-		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		// objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	}
 
 	@Test
-	public void getAllPost_ShouldReturnAllThePostWhenUserIdIsValid() throws JsonProcessingException, Exception {
+	public void getAllPost_ShouldReturnAllThePostWhenPostDoesExistForGivenUserId()
+			throws JsonProcessingException, Exception {
 		when(postService.findAllPostByUserId(anyLong())).thenReturn(postList);
 		// @formatter:off
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/101/posts")
@@ -71,5 +70,45 @@ public class PostControllerTest {
 				.andReturn();
 		// @formatter:on
 		verify(postService).findAllPostByUserId(anyLong());
+	}
+
+	@Test
+	public void getAllPost_ShouldReturnAllThePostWhenPostDoesNotExistForGivenUserId()
+			throws JsonProcessingException, Exception {
+		List<Post> postList = new ArrayList<>();
+		when(postService.findAllPostByUserId(anyLong())).thenReturn(postList);
+		// @formatter:off
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/101/posts")
+				.accept(MediaType.APPLICATION_JSON_VALUE);
+		MvcResult result = mockMvc.perform(requestBuilder)
+				.andExpect(status().isOk())
+				.andExpect(content().json(objectMapper.writeValueAsString(postList)))
+				.andReturn();
+		// @formatter:on
+		verify(postService).findAllPostByUserId(anyLong());
+	}
+
+	@Test
+	public void getAllPost_ShouldThrowExceptionWhenPathVariableUserIdIsString()
+			throws JsonProcessingException, Exception {
+		when(postService.findAllPostByUserId(anyLong())).thenReturn(postList);
+		// @formatter:off
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/101str/posts")
+				.accept(MediaType.APPLICATION_JSON_VALUE);
+		mockMvc.perform(requestBuilder)
+				.andExpect(status().isBadRequest());
+		// @formatter:on
+	}
+
+	@Test
+	public void getPost_ShoudlReturnThePostWhenGivenPostIdIsValid() throws JsonProcessingException, Exception {
+		when(postService.findPost(anyLong())).thenReturn(post);
+		// @formatter:off
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users/101/posts/201")
+				.accept(MediaType.APPLICATION_JSON_VALUE);
+		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isOk())
+				.andExpect(content().json(objectMapper.writeValueAsString(post))).andReturn();
+		// @formatter:on
+
 	}
 }

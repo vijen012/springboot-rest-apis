@@ -1,9 +1,14 @@
 package com.restful.user.data;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 public class Account {
 
 	private Long accountId;
-	private String accountType;
+
+	@Enumerated(EnumType.STRING)
+	private AccountType accountType;
 	private String accountNumber;
 	private double amount;
 
@@ -11,7 +16,7 @@ public class Account {
 
 	}
 
-	public Account(Long accountId, String accountType, String accountNumber, double amount) {
+	public Account(Long accountId, AccountType accountType, String accountNumber, double amount) {
 		super();
 		this.accountId = accountId;
 		this.accountType = accountType;
@@ -27,11 +32,11 @@ public class Account {
 		this.accountId = accountId;
 	}
 
-	public String getAccountType() {
+	public AccountType getAccountType() {
 		return accountType;
 	}
 
-	public void setAccountType(String accountType) {
+	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
 

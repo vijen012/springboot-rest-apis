@@ -54,6 +54,7 @@ public class AccountProxyServiceImplTest {
 		accountProxyServiceImpl.setAccountServiceUrl("http://localhost:" + Jadler.port());
 		Account account = accountProxyServiceImpl.getAccountDetail(101L);
 		assertThat(account).isNotNull();
+		assertThat(account.getAccountId()).isEqualTo(1000L);
 	}
 
 }
