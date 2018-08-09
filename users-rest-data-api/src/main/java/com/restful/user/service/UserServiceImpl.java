@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.restful.exception.UserNotFoundException;
-import com.restful.user.data.Account;
+import com.restful.user.data.AccountResponseData;
 import com.restful.user.data.User;
 import com.restful.user.repos.UserRepository;
 
@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
 		List<User> users = new ArrayList<>();
 		// userRepository.findAll(pageable).forEach(users::add);
 		userRepository.findAll(pageable).forEach(user -> {
-			Account account = accountProxyService.getAccountDetail(user.getId());
-			user.setAccount(account);
+			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(user.getId());
+			user.setAccount(accountResponseData);
 			users.add(user);
 		});
 		return users;
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
 		if (!optional.isPresent()) {
 			throw new UserNotFoundException("UserId " + id + " doesn't exist !!");
 		} else {
-			Account account = accountProxyService.getAccountDetail(id);
-			optional.get().setAccount(account);
+			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(id);
+			optional.get().setAccount(accountResponseData);
 			return optional.get();
 		}
 	}

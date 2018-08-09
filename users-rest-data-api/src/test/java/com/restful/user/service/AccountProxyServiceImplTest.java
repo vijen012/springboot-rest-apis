@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
-import com.restful.user.data.Account;
+import com.restful.user.data.AccountResponseData;
 
 import net.jadler.Jadler;
 import net.jadler.stubbing.server.jdk.JdkStubHttpServer;
@@ -52,7 +52,7 @@ public class AccountProxyServiceImplTest {
 			.withContentType("application/json; charset=UTF-8");
 		// @formatter:on
 		accountProxyServiceImpl.setAccountServiceUrl("http://localhost:" + Jadler.port());
-		Account account = accountProxyServiceImpl.getAccountDetail(101L);
+		AccountResponseData account = accountProxyServiceImpl.getAccountDetail(101L);
 		assertThat(account).isNotNull();
 		assertThat(account.getAccountId()).isEqualTo(1000L);
 	}

@@ -12,7 +12,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.restful.exception.ResourceNotFoundException;
-import com.restful.user.data.Account;
+import com.restful.user.data.AccountResponseData;
 
 @Service
 public class AccountProxyServiceImpl implements AccountProxyService {
@@ -32,15 +32,15 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 	}
 
 	@Override
-	public Account getAccountDetail(Long userId) {
+	public AccountResponseData getAccountDetail(Long userId) {
 		String url = accountServiceUrl + "/accounts?userId=" + userId;
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 //		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Account> responseEntity = null;
+		ResponseEntity<AccountResponseData> responseEntity = null;
 		try {
-			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Account.class);
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, AccountResponseData.class);
 		} catch (HttpClientErrorException ex) {
 			throw new ResourceNotFoundException("request resource url " + url + " doesn't exist");
 			// return null;

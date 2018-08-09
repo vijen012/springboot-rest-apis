@@ -48,7 +48,7 @@ public class User {
 
 	@Transient
 	@JsonInclude
-	private Account account;
+	private AccountResponseData account;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Post> posts;
@@ -109,11 +109,11 @@ public class User {
 		this.birthDate = birthDate;
 	}
 
-	public Account getAccount() {
+	public AccountResponseData getAccount() {
 		return account;
 	}
 
-	public void setAccount(Account account) {
+	public void setAccount(AccountResponseData account) {
 		this.account = account;
 	}
 

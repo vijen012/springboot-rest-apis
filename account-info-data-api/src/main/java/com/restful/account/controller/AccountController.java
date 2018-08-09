@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restful.account.data.Account;
+import com.restful.account.data.AccountRequestData;
+import com.restful.account.data.AccountResponseData;
 import com.restful.account.service.AccountService;
 
 @RestController
@@ -22,12 +23,14 @@ public class AccountController {
 	private AccountService accountService;
 
 	@GetMapping(path = "/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Account> getAccountDetails(@RequestParam(value = "userId", required = true) Long userId) {
-		return new ResponseEntity<Account>(accountService.findAccount(userId), HttpStatus.OK);
+	public ResponseEntity<AccountResponseData> getAccountDetails(
+			@RequestParam(value = "userId", required = true) Long userId) {
+		return new ResponseEntity<>(accountService.findAccount(userId), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/accounts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Account> createAccount(@RequestBody @Valid Account account) {
-		return new ResponseEntity<Account>(accountService.saveAccount(account), HttpStatus.CREATED);
+	public ResponseEntity<AccountResponseData> createAccount(
+			@RequestBody @Valid AccountRequestData accountRequestData) {
+		return new ResponseEntity<>(accountService.saveAccount(accountRequestData), HttpStatus.CREATED);
 	}
 }

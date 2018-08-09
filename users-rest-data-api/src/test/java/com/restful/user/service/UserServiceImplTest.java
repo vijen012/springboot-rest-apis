@@ -32,7 +32,7 @@ import org.springframework.http.HttpStatus;
 
 import com.restful.exception.UserNotFoundException;
 import com.restful.post.data.Post;
-import com.restful.user.data.Account;
+import com.restful.user.data.AccountResponseData;
 import com.restful.user.data.AccountType;
 import com.restful.user.data.User;
 import com.restful.user.repos.UserRepository;
@@ -57,7 +57,7 @@ public class UserServiceImplTest {
 			.collect(Collectors.toList());
 
 	private User user = new User(101L, "Martin", "Hussy", "martin.hussy@gmail.com", LocalDate.of(2016, 6, 12));
-	private Account account = new Account(1000L, AccountType.SAVING, "1223BBC", 2000d);
+	private AccountResponseData account = new AccountResponseData(1000L, AccountType.SAVING, "1223BBC", 2000d);
 
 	@Before
 	public void setUp() {

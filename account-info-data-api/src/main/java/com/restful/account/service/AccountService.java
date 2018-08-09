@@ -1,12 +1,11 @@
 package com.restful.account.service;
 
-import javax.validation.Valid;
-
-import com.restful.account.data.Account;
+import com.restful.account.data.AccountRequestData;
+import com.restful.account.data.AccountResponseData;
 
 public interface AccountService {
 
-	public Account findAccount(Long userId);
+	public AccountResponseData findAccount(Long userId);
 
-	public Account saveAccount(@Valid Account account);
+	public AccountResponseData saveAccount(AccountRequestData accountRequestData);
 }

@@ -1,7 +1,7 @@
 package com.restful.user.service;
 
-import com.restful.user.data.Account;
+import com.restful.user.data.AccountResponseData;
 
 public interface AccountProxyService {
-	public Account getAccountDetail(Long userId);
+	public AccountResponseData getAccountDetail(Long userId);
 }

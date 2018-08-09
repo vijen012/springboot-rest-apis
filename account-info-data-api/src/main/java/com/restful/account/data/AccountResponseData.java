@@ -1,27 +1,19 @@
-package com.restful.user.data;
+package com.restful.account.data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class Account {
+public class AccountResponseData {
 
 	private Long accountId;
 
-	@Enumerated(EnumType.STRING)
+	@JsonIgnore
+	private Long userId;
 	private AccountType accountType;
 	private String accountNumber;
 	private double amount;
 
-	public Account() {
+	public AccountResponseData() {
 
-	}
-
-	public Account(Long accountId, AccountType accountType, String accountNumber, double amount) {
-		super();
-		this.accountId = accountId;
-		this.accountType = accountType;
-		this.accountNumber = accountNumber;
-		this.amount = amount;
 	}
 
 	public Long getAccountId() {
@@ -30,6 +22,14 @@ public class Account {
 
 	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public AccountType getAccountType() {
@@ -58,8 +58,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", accountNumber=" + accountNumber
-				+ ", amount=" + amount + "]";
+		return "AccountResponseData [accountId=" + accountId + ", accountType=" + accountType + ", accountNumber="
+				+ accountNumber + ", amount=" + amount + "]";
 	}
-
 }
