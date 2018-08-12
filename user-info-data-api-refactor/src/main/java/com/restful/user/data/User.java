@@ -9,19 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.restful.address.data.Address;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@ApiModel(description = "All details about the user")
-//@JsonFilter("UserFilter")
 @Entity
 public class User {
 
@@ -29,26 +19,10 @@ public class User {
 	@GeneratedValue
 	private Long id;
 
-	@Size(min = 2, message = "firstName attribute should be atleast 2 char long")
-	@ApiModelProperty(notes = "firstName should be atleast 2 character long")
 	private String firstName;
-
-	@Size(min = 2, message = "lastName attribute should be atleast 2 char long")
-	@ApiModelProperty(notes = "lastName should be atleast 2 character long")
 	private String lastName;
-
-	@Email(message = "email should be valid")
-	@ApiModelProperty(notes = "email should be valid")
 	private String email;
-
-//	@Temporal(TemporalType.DATE)
-	@Past(message = "birthDate should be in past")
-	@ApiModelProperty(notes = "birthdate should be in past")
 	private LocalDate birthDate;
-
-	@Transient
-	@JsonInclude
-	private AccountResponseData account;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Address> addressList;
@@ -57,10 +31,7 @@ public class User {
 
 	}
 
-	public User(Long id, @Size(min = 2, message = "firstName attribute should be atleast 2 char long") String firstName,
-			@Size(min = 2, message = "lastName attribute should be atleast 2 char long") String lastName,
-			@Email(message = "email should be valid") String email,
-			@Past(message = "birthDate should be in past") LocalDate birthDate) {
+	public User(Long id, String firstName, String lastName, String email, LocalDate birthDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -107,14 +78,6 @@ public class User {
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
-	}
-
-	public AccountResponseData getAccount() {
-		return account;
-	}
-
-	public void setAccount(AccountResponseData account) {
-		this.account = account;
 	}
 
 	public List<Address> getAddressList() {

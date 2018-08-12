@@ -3,6 +3,7 @@ package com.restful.user.data;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.restful.address.data.Address;
 
 public class UserResponseData {
@@ -12,7 +13,11 @@ public class UserResponseData {
 	private String lastName;
 	private String email;
 	private LocalDate birthDate;
+
+	@JsonProperty("account")
 	private AccountResponseData accountResponseData;
+
+	@JsonProperty("addresses")
 	private List<Address> addressList;
 
 	public UserResponseData() {
@@ -77,7 +82,7 @@ public class UserResponseData {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "UserResponseData [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", birthDate=" + birthDate + "]";
 	}
 }

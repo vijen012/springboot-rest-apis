@@ -18,6 +18,10 @@ public class AddressResponseData {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public AddressType getAddressType() {
 		return addressType;
 	}
@@ -68,7 +72,7 @@ public class AddressResponseData {
 
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", addressType=" + addressType + ", houseNumber=" + houseNumber + ", street="
-				+ street + ", city=" + city + ", postCode=" + postCode + ", country=" + country + "]";
+		return "AddressResponseData [id=" + id + ", addressType=" + addressType + ", houseNumber=" + houseNumber
+				+ ", street=" + street + ", city=" + city + ", postCode=" + postCode + ", country=" + country + "]";
 	}
 }

@@ -3,8 +3,6 @@ package com.restful.address.data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-import com.restful.user.data.UserRequestData;
-
 import io.swagger.annotations.ApiModelProperty;
 
 public class AddressRequestData {
@@ -38,8 +36,6 @@ public class AddressRequestData {
 	@NotBlank(message = "country must not be blank")
 	@NotEmpty(message = "country must not be empty")
 	private String country;
-
-	private UserRequestData userRequestData;
 
 	public AddressRequestData() {
 	}
@@ -100,17 +96,9 @@ public class AddressRequestData {
 		this.country = country;
 	}
 
-	public UserRequestData getUserRequestData() {
-		return userRequestData;
-	}
-
-	public void setUserRequestData(UserRequestData userRequestData) {
-		this.userRequestData = userRequestData;
-	}
-
 	@Override
 	public String toString() {
-		return "Address [addressType=" + addressType + ", houseNumber=" + houseNumber + ", street=" + street + ", city="
-				+ city + ", postCode=" + postCode + ", country=" + country + "]";
+		return "AddressRequestData [addressType=" + addressType + ", houseNumber=" + houseNumber + ", street=" + street
+				+ ", city=" + city + ", postCode=" + postCode + ", country=" + country + "]";
 	}
 }

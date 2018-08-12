@@ -4,18 +4,19 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.restful.address.data.Address;
+import com.restful.address.data.AddressRequestData;
+import com.restful.address.data.AddressResponseData;
 
 public interface AddressService {
-	public List<Address> findAllAddressByUserId(Long userId);
+	public List<AddressResponseData> findAllAddressByUserId(Long userId);
 
-	public Address findAddress(Long addressId);
+	public AddressResponseData findAddress(Long addressId);
 
-	public Address saveAddress(Long userId, Address address);
+	public AddressResponseData saveAddress(Long userId, AddressRequestData addressRequestData);
 
-	public Address updateAddress(Long userId, Long addressId, Address address);
+	public AddressResponseData updateAddress(Long userId, Long addressId, AddressRequestData addressRequestData);
 
-	public List<Address> updateAllAddress(Long userId, List<Address> addressList);
+	public List<AddressResponseData> updateAllAddress(Long userId, List<AddressRequestData> addressRequestDataList);
 
 	public HttpStatus deleteAddress(Long addressId);
 

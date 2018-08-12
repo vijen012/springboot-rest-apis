@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.restful.address.data.AddressRequestData;
 
 import io.swagger.annotations.ApiModel;
@@ -34,8 +35,10 @@ public class UserRequestData {
 	@ApiModelProperty(notes = "birthdate should be in past")
 	private LocalDate birthDate;
 
+	@JsonProperty("addresses")
 	private List<AddressRequestData> addressRequestDataList;
 
+	@JsonProperty("account")
 	private AccountResponseData accountResponseData;
 
 	public UserRequestData() {
@@ -100,7 +103,7 @@ public class UserRequestData {
 
 	@Override
 	public String toString() {
-		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", birthDate="
-				+ birthDate + "]";
+		return "UserRequestData [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", birthDate=" + birthDate + "]";
 	}
 }

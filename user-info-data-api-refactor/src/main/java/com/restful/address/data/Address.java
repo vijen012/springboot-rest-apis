@@ -7,66 +7,34 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.restful.user.data.User;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 @Entity
-@ApiModel(description = "Information about user address")
 public class Address {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	@ApiModelProperty(notes = "must be HOME, WORK AND OFFICE")
 	@Enumerated(EnumType.STRING)
 	private AddressType addressType;
 
-	@ApiModelProperty(notes = "must not be blank or empty")
-	@NotBlank(message = "houseNumber must not be blank")
-	@NotEmpty(message = "houseNumber must not be empty")
 	private String houseNumber;
-
-	@ApiModelProperty(notes = "must not be blank or empty")
-	@NotBlank(message = "street must not be blank")
-	@NotEmpty(message = "street must not be empty")
 	private String street;
-
-	@ApiModelProperty(notes = "must not be blank or empty")
-	@NotBlank(message = "city must not be blank")
-	@NotEmpty(message = "city must not be empty")
 	private String city;
-
-	@ApiModelProperty(notes = "must not be blank or null")
-	@NotBlank(message = "postcode must not be blank")
-	@NotEmpty(message = "postcode must not be empty")
 	private String postCode;
-
-	@ApiModelProperty(notes = "must not be blank or null")
-	@NotBlank(message = "country must not be blank")
-	@NotEmpty(message = "country must not be empty")
 	private String country;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
 	private User user;
 
 	public Address() {
 
 	}
 
-	public Address(AddressType addressType, @NotNull(message = "houseNumber must not be null") String houseNumber,
-			@NotBlank(message = "street must not be blank") @NotEmpty(message = "street must not be empty") String street,
-			@NotBlank(message = "city must not be blank") @NotEmpty(message = "city must not be empty") String city,
-			@NotBlank(message = "postcode must not be blank") @NotEmpty(message = "postcode must not be empty") String postCode,
-			@NotBlank(message = "country must not be blank") @NotEmpty(message = "country must not be empty") String country) {
+	public Address(AddressType addressType, String houseNumber, String street, String city, String postCode,
+			String country) {
 		super();
 		this.addressType = addressType;
 		this.houseNumber = houseNumber;

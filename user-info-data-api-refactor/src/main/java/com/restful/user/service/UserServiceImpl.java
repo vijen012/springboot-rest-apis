@@ -108,7 +108,8 @@ public class UserServiceImpl implements UserService {
 				user.getAddressList().forEach(address -> address.setUser(user));
 			}
 			User savedUser = userRepository.save(user);
-			UserResponseData userResponseData = userDataMapper.getUserResponseData(savedUser, user.getAccount());
+			UserResponseData userResponseData = userDataMapper.getUserResponseData(savedUser,
+					userRequestData.getAccountResponseData());
 			return userResponseData;
 		} else {
 			throw new UserNotFoundException("UserId " + id + " doesn't exist !!");

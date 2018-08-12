@@ -1,11 +1,15 @@
 package com.restful.exception;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -53,7 +57,9 @@ public class RestExceptionResolver extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		String message = ex.getBindingResult().getFieldError().getDefaultMessage();
+		BindingResult result = ex.getBindingResult();
+		List<FieldError> fieldErrors = result.getFieldErrors();
+		String message = processFieldErrors(fieldErrors);
 		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), message, message,
 				new Date());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
@@ -73,5 +79,10 @@ public class RestExceptionResolver extends ResponseEntityExceptionHandler {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(),
 				request.getDescription(false), new Date());
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+
+	private String processFieldErrors(List<FieldError> fieldErrors) {
+		String message = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
+		return message;
 	}
 }

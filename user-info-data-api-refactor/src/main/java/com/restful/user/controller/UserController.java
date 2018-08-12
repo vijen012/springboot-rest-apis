@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.restful.user.data.User;
+import com.restful.user.data.UserRequestData;
+import com.restful.user.data.UserResponseData;
 import com.restful.user.service.UserService;
 
 @RestController
@@ -35,26 +36,27 @@ public class UserController {
 	 */
 
 	@GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<User>> getAllUsers(
+	public ResponseEntity<List<UserResponseData>> getAllUsers(
 			@RequestHeader(value = "x-request-header", required = true) @Valid String requestHeader,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20", required = false) int pageSize) {
-		return new ResponseEntity<List<User>>(userService.findAllUser(pageNumber, pageSize), HttpStatus.OK);
+		return new ResponseEntity<List<UserResponseData>>(userService.findAllUser(pageNumber, pageSize), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> getUser(@PathVariable Long userId) {
-		return new ResponseEntity<User>(userService.findUser(userId), HttpStatus.OK);
+	public ResponseEntity<UserResponseData> getUser(@PathVariable Long userId) {
+		return new ResponseEntity<UserResponseData>(userService.findUser(userId), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> createUser(@Valid @RequestBody(required = true) User user) {
-		User savedUser = userService.saveUser(user);
+	public ResponseEntity<UserResponseData> createUser(
+			@Valid @RequestBody(required = true) UserRequestData userRequestData) {
+		UserResponseData savedUser = userService.saveUser(userRequestData);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(location);
-		return new ResponseEntity<User>(savedUser, headers, HttpStatus.CREATED);
+		return new ResponseEntity<UserResponseData>(savedUser, headers, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping(path = "/users/{userId}")
@@ -63,8 +65,9 @@ public class UserController {
 	}
 
 	@PutMapping(path = "/users/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody(required = true) User user) {
-		return new ResponseEntity<>(userService.updateUser(userId, user), HttpStatus.OK);
+	public ResponseEntity<UserResponseData> updateUser(@PathVariable Long userId,
+			@Valid @RequestBody(required = true) UserRequestData userRequestData) {
+		return new ResponseEntity<UserResponseData>(userService.updateUser(userId, userRequestData), HttpStatus.OK);
 	}
 
 //	/*------------------------Custome Finder Methods----------------------------*/

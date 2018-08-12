@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.restful.address.data.Address;
+import com.restful.address.data.AddressDataMapper;
+import com.restful.address.data.AddressRequestData;
+import com.restful.address.data.AddressResponseData;
 import com.restful.address.repos.AddressRepository;
 import com.restful.exception.AddressNotFoundException;
 import com.restful.exception.UserNotFoundException;
@@ -23,44 +26,56 @@ public class AddressServiceImpl implements AddressService {
 	@Autowired
 	private UserRepository userRepositroy;
 
+	@Autowired
+	private AddressDataMapper addressDataMapper;
+
 	@Override
-	public List<Address> findAllAddressByUserId(Long userId) {
+	public List<AddressResponseData> findAllAddressByUserId(Long userId) {
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("UserId " + userId + " doesn't exist !!");
 		}
-		return userOptional.get().getAddressList();
+		List<AddressResponseData> addressResponseDataList = addressDataMapper
+				.getAddressResponseDataList(userOptional.get().getAddressList());
+		return addressResponseDataList;
 	}
 
 	@Override
-	public Address findAddress(Long addressId) {
+	public AddressResponseData findAddress(Long addressId) {
 		Optional<Address> addressOptional = addressRepository.findById(addressId);
 		if (!addressOptional.isPresent()) {
 			throw new AddressNotFoundException("AddressId " + addressId + " doesn't exist !!");
 		}
-		return addressOptional.get();
+		AddressResponseData addressResponseData = addressDataMapper.getAddressResponseData(addressOptional.get());
+		return addressResponseData;
 	}
 
 	@Override
-	public Address saveAddress(Long userId, Address address) {
+	public AddressResponseData saveAddress(Long userId, AddressRequestData addressRequestData) {
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("UserId " + userId + " doesn't exist !!");
 		}
 		User user = userOptional.get();
+		Address address = addressDataMapper.getAddress(addressRequestData);
 		address.setUser(user);
-		return addressRepository.save(address);
+		AddressResponseData addressResponseData = addressDataMapper
+				.getAddressResponseData(addressRepository.save(address));
+		return addressResponseData;
 	}
 
 	@Override
-	public Address updateAddress(Long userId, Long addressId, Address address) {
+	public AddressResponseData updateAddress(Long userId, Long addressId, AddressRequestData addressRequestData) {
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (userOptional.isPresent()) {
 			Optional<Address> addressOptional = addressRepository.findById(addressId);
 			if (addressOptional.isPresent()) {
 				User user = userOptional.get();
+				Address address = addressDataMapper.getAddress(addressRequestData);
 				address.setUser(user);
-				return addressRepository.save(address);
+				AddressResponseData addressResponseData = addressDataMapper
+						.getAddressResponseData(addressRepository.save(address));
+				return addressResponseData;
 			} else {
 				throw new AddressNotFoundException("AddressId " + addressId + "doesn't exist for user" + userId);
 			}
@@ -70,14 +85,17 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public List<Address> updateAllAddress(Long userId, List<Address> addressList) {
+	public List<AddressResponseData> updateAllAddress(Long userId, List<AddressRequestData> addressRequestDataList) {
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("UserId " + userId + " doesn't exist !!");
 		}
 		User user = userOptional.get();
-		addressList.forEach(post -> post.setUser(user));
-		return (List<Address>) addressRepository.saveAll(addressList);
+		List<Address> addresses = addressDataMapper.getAddressList(addressRequestDataList);
+		addresses.forEach(post -> post.setUser(user));
+		addresses = (List<Address>) addressRepository.saveAll(addresses);
+		List<AddressResponseData> addressResponseDataList = addressDataMapper.getAddressResponseDataList(addresses);
+		return addressResponseDataList;
 	}
 
 	@Override

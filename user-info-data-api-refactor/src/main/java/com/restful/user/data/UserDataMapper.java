@@ -21,6 +21,7 @@ public class UserDataMapper {
 		userResponseData.setFirstName(user.getFirstName());
 		userResponseData.setLastName(user.getLastName());
 		userResponseData.setEmail(user.getEmail());
+		userResponseData.setBirthDate(user.getBirthDate());
 		userResponseData.setAddrssList(user.getAddressList());
 		userResponseData.setAccountResponseData(accountResponseData);
 		return userResponseData;
@@ -34,6 +35,7 @@ public class UserDataMapper {
 			userResponseData.setFirstName(user.getFirstName());
 			userResponseData.setLastName(user.getLastName());
 			userResponseData.setEmail(user.getEmail());
+			userResponseData.setBirthDate(user.getBirthDate());
 			userResponseData.setAddrssList(user.getAddressList());
 			userResponseData.setAccountResponseData(accountResponseData);
 			userResponseDataList.add(userResponseData);
@@ -48,10 +50,10 @@ public class UserDataMapper {
 		user.setFirstName(userRequestData.getFirstName());
 		user.setLastName(userRequestData.getLastName());
 		user.setEmail(userRequestData.getEmail());
+		user.setBirthDate(userRequestData.getBirthDate());
 		if (userRequestData.getAddressRequestDataList() != null) {
-			user.setAddrssList(addressDataMapper.getAddressList(user, userRequestData.getAddressRequestDataList()));
+			user.setAddrssList(addressDataMapper.getAddressList(userRequestData.getAddressRequestDataList()));
 		}
-		user.setAccount(userRequestData.getAccountResponseData());
 		return user;
 	}
 }
