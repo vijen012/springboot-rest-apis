@@ -1,0 +1,15 @@
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(100, 'Nick', 'Jonnas', 'nick.jonnas@gmail.com', sysdate());
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(101, 'Bill', 'Garry', 'bill.garry@gmail.com', sysdate());
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(102, 'Alex', 'Staler', 'alex.staler@gmail.com', sysdate());
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(103, 'Whitney', 'Simmons', 'whitney.simmons@gmail.com', sysdate());
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(104, 'Cassndra', 'Martin', 'cass.martin@gmail.com', sysdate());
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(105, 'Alex', 'Silver', 'alex.silver@gmail.com', sysdate());
+INSERT INTO USER (ID, FIRST_NAME, LAST_NAME, EMAIL, BIRTH_DATE) VALUES(106, 'Jym', 'Stopani', 'jym.stopani@gmail.com', sysdate());
+INSERT INTO ADDRESS VALUES(200, 'HOME', 'A-49', 'Stains Road', 'London', 'TW33GE', 'UK', 100);
+INSERT INTO ADDRESS VALUES(201, 'HOME', 'B-41', 'Stains Road', 'London', 'TW33GE', 'UK', 101);
+INSERT INTO ADDRESS VALUES(202, 'OFFICE', '121', 'Spital Square', 'London', 'E16DU', 'UK', 101);
+INSERT INTO ADDRESS VALUES(203, 'WORK', '12/21', 'Chiswell Street', 'London', 'EC1Y4XX', 'UK', 102);
+INSERT INTO ADDRESS VALUES(204, 'WORK', 'C-12', 'Chiswell Street', 'London', 'EC1Y4XX', 'UK', 103);
+INSERT INTO ADDRESS VALUES(205, 'OFFICE', 'A-50', 'Spital Square', 'London', 'E16DU', 'UK', 104);
+INSERT INTO ADDRESS VALUES(206, 'WORK', 'A-79', 'Chiswell Street', 'London', 'EC1Y4XX', 'UK', 105);
+INSERT INTO ADDRESS VALUES(207, 'HOME', 'A-99', 'Stains Road', 'London', 'TW33GE', 'UK', 105);
