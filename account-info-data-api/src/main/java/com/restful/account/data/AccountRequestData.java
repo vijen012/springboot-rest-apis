@@ -4,9 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class AccountRequestData {
 
 	@NotNull(message = "userId must not be null")
