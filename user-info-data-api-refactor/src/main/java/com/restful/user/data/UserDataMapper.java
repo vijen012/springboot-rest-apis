@@ -22,7 +22,10 @@ public class UserDataMapper {
 		userResponseData.setLastName(user.getLastName());
 		userResponseData.setEmail(user.getEmail());
 		userResponseData.setBirthDate(user.getBirthDate());
-		userResponseData.setAddrssList(user.getAddressList());
+		if (user.getAddressList() != null) {
+			userResponseData
+					.setAddressResponseDataList(addressDataMapper.getAddressResponseDataList(user.getAddressList()));
+		}
 		userResponseData.setAccountResponseData(accountResponseData);
 		return userResponseData;
 	}
@@ -36,7 +39,10 @@ public class UserDataMapper {
 			userResponseData.setLastName(user.getLastName());
 			userResponseData.setEmail(user.getEmail());
 			userResponseData.setBirthDate(user.getBirthDate());
-			userResponseData.setAddrssList(user.getAddressList());
+			if (user.getAddressList() != null) {
+				userResponseData.setAddressResponseDataList(
+						addressDataMapper.getAddressResponseDataList(user.getAddressList()));
+			}
 			userResponseData.setAccountResponseData(accountResponseData);
 			userResponseDataList.add(userResponseData);
 

@@ -1,11 +1,43 @@
-package com.restful.user.service;
-
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-
-@RunWith(MockitoJUnitRunner.class)
-public class UserServiceImplTest {
-
+//package com.restful.user.service;
+//
+//import static org.assertj.core.api.Assertions.assertThat;
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.ArgumentMatchers.anyLong;
+//import static org.mockito.Mockito.doNothing;
+//import static org.mockito.Mockito.times;
+//import static org.mockito.Mockito.verify;
+//import static org.mockito.Mockito.when;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
+//import org.mockito.InjectMocks;
+//import org.mockito.Mock;
+//import org.mockito.junit.MockitoJUnitRunner;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.domain.Page;
+//import org.springframework.data.domain.PageImpl;
+//import org.springframework.data.domain.PageRequest;
+//import org.springframework.data.domain.Pageable;
+//import org.springframework.data.domain.Sort;
+//import org.springframework.data.domain.Sort.Direction;
+//import org.springframework.http.HttpStatus;
+//
+//import com.restful.exception.UserNotFoundException;
+//import com.restful.mock.MockTestData;
+//import com.restful.user.data.AccountResponseData;
+//import com.restful.user.data.User;
+//import com.restful.user.data.UserRequestData;
+//import com.restful.user.data.UserResponseData;
+//import com.restful.user.repos.UserRepository;
+//
+//@RunWith(MockitoJUnitRunner.class)
+//public class UserServiceImplTest {
+//
 //	@Mock
 //	private UserRepository userRepository;
 //
@@ -55,7 +87,7 @@ public class UserServiceImplTest {
 //		when(userRepository.findById(anyLong())).thenReturn(userOptional);
 //		when(accountProxyService.getAccountDetail(anyLong())).thenReturn(accountResponseData);
 //		assertThat(userService.findUser(101L)).isEqualTo(userOptional.get());
-//		assertThat(userService.findUser(101L).getAccount()).isEqualTo(accountResponseData);
+//		assertThat(userService.findUser(101L).getAccountResponseData()).isEqualTo(accountResponseData);
 //		verify(userRepository, times(2)).findById(anyLong());
 //		verify(accountProxyService, times(2)).getAccountDetail(anyLong());
 //	}
@@ -66,7 +98,7 @@ public class UserServiceImplTest {
 //		when(userRepository.findById(anyLong())).thenReturn(userOptional);
 //		when(accountProxyService.getAccountDetail(anyLong())).thenReturn(null);
 //		assertThat(userService.findUser(101L)).isEqualTo(userOptional.get());
-//		assertThat(userService.findUser(101L).getAccount()).isEqualTo(null);
+//		assertThat(userService.findUser(101L).getAccountResponseData()).isEqualTo(null);
 //		verify(userRepository, times(2)).findById(anyLong());
 //		verify(accountProxyService, times(2)).getAccountDetail(anyLong());
 //	}
@@ -81,8 +113,11 @@ public class UserServiceImplTest {
 //	@Test
 //	public void saveUser_ShouldReturnSameUserInstanceAfterSavedWhenNoAddressesAssociateWithUserInstance() {
 //		User user = mockTestData.getUser();
+//		UserRequestData userRequestData = mockTestData.getUserReqestData();
+//		UserResponseData userResponseData = mockTestData.getUserResponseData();
+//
 //		when(userRepository.save(any(User.class))).thenReturn(user);
-//		assertThat(userService.saveUser(user)).isEqualTo(user);
+//		assertThat(userService.saveUser(userRequestData)).isEqualTo(userResponseData);
 //		verify(userRepository, times(1)).save(user);
 //	}
 //
@@ -90,8 +125,15 @@ public class UserServiceImplTest {
 //	public void saveUser_ShouldReturnSameUserInstanceAfterSavedWhenAddressesAssociateWithUserInstance() {
 //		User user = mockTestData.getUser();
 //		user.setAddrssList(mockTestData.getAddressList());
+//
+//		UserRequestData userRequestData = mockTestData.getUserReqestData();
+//		userRequestData.setAddrssRequestDataList(mockTestData.getAddressRequstDataList());
+//
+//		UserResponseData userResponseData = mockTestData.getUserResponseData();
+//		userResponseData.setAddressResponseDataList(mockTestData.getAddressResponeDataList());
+//
 //		when(userRepository.save(any(User.class))).thenReturn(user);
-//		assertThat(userService.saveUser(user)).isEqualTo(user);
+//		assertThat(userService.saveUser(userRequestData)).isEqualTo(userRequestData);
 //		verify(userRepository, times(1)).save(user);
 //	}
 //
@@ -118,10 +160,11 @@ public class UserServiceImplTest {
 //	@Test
 //	public void updateUser_ShouldReturnSameUserInstanceAfterSavedWhenNoAddressesAssociateWithUserInstance() {
 //		User user = mockTestData.getUser();
+//		UserRequestData userRequestData = mockTestData.getUserReqestData();
 //		Optional<User> userOptional = Optional.of(user);
 //		when(userRepository.findById(101L)).thenReturn(userOptional);
 //		when(userRepository.save(any(User.class))).thenReturn(user);
-//		assertThat(userService.updateUser(101L, user)).isEqualTo(user);
+//		assertThat(userService.updateUser(101L, userRequestData)).isEqualTo(user);
 //		verify(userRepository, times(1)).findById(anyLong());
 //		verify(userRepository, times(1)).save(user);
 //	}
@@ -129,11 +172,12 @@ public class UserServiceImplTest {
 //	@Test
 //	public void updateUser_ShouldReturnSameUserInstanceAfterSavedWhenAddressesAssociateWithUserInstance() {
 //		User user = mockTestData.getUser();
+//		UserRequestData userRequestData = mockTestData.getUserReqestData();
 //		Optional<User> userOptional = Optional.of(user);
 //		user.setAddrssList(mockTestData.getAddressList());
 //		when(userRepository.findById(101L)).thenReturn(userOptional);
 //		when(userRepository.save(any(User.class))).thenReturn(user);
-//		assertThat(userService.updateUser(101L, user)).isEqualTo(user);
+//		assertThat(userService.updateUser(101L, userRequestData)).isEqualTo(user);
 //		verify(userRepository, times(1)).findById(anyLong());
 //		verify(userRepository, times(1)).save(user);
 //	}
@@ -142,7 +186,7 @@ public class UserServiceImplTest {
 //	public void updateUser_ShouldThrowUserNotFoundExceptionWhenUserDoesNotExist() {
 //		Optional<User> userOptional = Optional.empty();
 //		when(userRepository.findById(101L)).thenReturn(userOptional);
-//		userService.updateUser(101L, mockTestData.getUser());
+//		userService.updateUser(101L, mockTestData.getUserReqestData());
 //		verify(userRepository, times(1)).findById(anyLong());
 //	}
-}
+//}

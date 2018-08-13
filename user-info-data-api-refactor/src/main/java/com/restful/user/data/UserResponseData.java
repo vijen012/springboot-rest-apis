@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.restful.address.data.Address;
+import com.restful.address.data.AddressResponseData;
 
 public class UserResponseData {
 
@@ -18,7 +18,7 @@ public class UserResponseData {
 	private AccountResponseData accountResponseData;
 
 	@JsonProperty("addresses")
-	private List<Address> addressList;
+	private List<AddressResponseData> addressResponseDataList;
 
 	public UserResponseData() {
 
@@ -72,12 +72,12 @@ public class UserResponseData {
 		this.accountResponseData = accountResponseData;
 	}
 
-	public List<Address> getAddressList() {
-		return addressList;
+	public List<AddressResponseData> getAddressResponseDataList() {
+		return addressResponseDataList;
 	}
 
-	public void setAddrssList(List<Address> addressList) {
-		this.addressList = addressList;
+	public void setAddressResponseDataList(List<AddressResponseData> addressResponseDataList) {
+		this.addressResponseDataList = addressResponseDataList;
 	}
 
 	@Override
