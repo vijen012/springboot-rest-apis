@@ -11,8 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @PropertySource(value = { "classpath:config.properties" })
-public class UserInfoDataApiApp {
-	private final static Logger log = LoggerFactory.getLogger(UserInfoDataApiApp.class);
+public class UserInfoDataApiAppV2 {
+	private final static Logger log = LoggerFactory.getLogger(UserInfoDataApiAppV2.class);
 
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -23,6 +23,6 @@ public class UserInfoDataApiApp {
 	public static void main(String[] args) {
 		log.info("Application about start !!!");
 		log.debug("Application about start !!!");
-		SpringApplication.run(UserInfoDataApiApp.class, args);
+		SpringApplication.run(UserInfoDataApiAppV2.class, args);
 	}
 }

@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.restful</groupId>
-	<artifactId>user-info-data-api</artifactId>
+	<artifactId>user-info-data-api-v2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>user-info-data-api</name>
+	<name>user-info-data-api-v2</name>
 	<description>Restful  web services</description>
 
 	<parent>
