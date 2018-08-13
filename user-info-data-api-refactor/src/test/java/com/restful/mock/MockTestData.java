@@ -39,6 +39,52 @@ public class MockTestData {
 		return userList;
 	}
 
+	public List<UserRequestData> getUserRequestDataList() {
+		String userListJsonString = "[\r\n" + "  {\r\n" + "    \"id\": 101,\r\n" + "    \"firstName\": \"Whitney\",\r\n"
+				+ "    \"lastName\": \"Simmons\",\r\n" + "    \"email\": \"whitney.simmons@gmail.com\",\r\n"
+				+ "    \"birthDate\": \"2018-07-27\"\r\n" + "  },\r\n" + "  {\r\n" + "    \"id\": 102,\r\n"
+				+ "    \"firstName\": \"Cass\",\r\n" + "    \"lastName\": \"Martin\",\r\n"
+				+ "    \"email\": \"cass.martin@gmail.com\",\r\n" + "    \"birthDate\": \"2018-09-29\"\r\n" + "  },\r\n"
+				+ "  {\r\n" + "    \"id\": 103,\r\n" + "    \"firstName\": \"Martin\",\r\n"
+				+ "    \"lastName\": \"Hussy\",\r\n" + "    \"email\": \"martin.hussy@gmail.com\",\r\n"
+				+ "    \"birthDate\": \"2018-05-16\"\r\n" + "  }  \r\n" + "]";
+		List<UserRequestData> userRequestDataList = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		try {
+			userRequestDataList = objectMapper.readValue(userListJsonString,
+					new TypeReference<List<UserRequestData>>() {
+					});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return userRequestDataList;
+	}
+
+	public List<UserResponseData> getUserResponseDataList() {
+		String userListJsonString = "[\r\n" + "  {\r\n" + "    \"id\": 101,\r\n" + "    \"firstName\": \"Whitney\",\r\n"
+				+ "    \"lastName\": \"Simmons\",\r\n" + "    \"email\": \"whitney.simmons@gmail.com\",\r\n"
+				+ "    \"birthDate\": \"2018-07-27\"\r\n" + "  },\r\n" + "  {\r\n" + "    \"id\": 102,\r\n"
+				+ "    \"firstName\": \"Cass\",\r\n" + "    \"lastName\": \"Martin\",\r\n"
+				+ "    \"email\": \"cass.martin@gmail.com\",\r\n" + "    \"birthDate\": \"2018-09-29\"\r\n" + "  },\r\n"
+				+ "  {\r\n" + "    \"id\": 103,\r\n" + "    \"firstName\": \"Martin\",\r\n"
+				+ "    \"lastName\": \"Hussy\",\r\n" + "    \"email\": \"martin.hussy@gmail.com\",\r\n"
+				+ "    \"birthDate\": \"2018-05-16\"\r\n" + "  }  \r\n" + "]";
+		List<UserResponseData> userResponseDataList = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		try {
+			userResponseDataList = objectMapper.readValue(userListJsonString,
+					new TypeReference<List<UserResponseData>>() {
+					});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return userResponseDataList;
+	}
+
 	public User getUser() {
 		String userJsonString = "{\r\n" + "  \"id\": 101,\r\n" + "  \"firstName\": \"Whitney\",\r\n"
 				+ "  \"lastName\": \"Simmons\",\r\n" + "  \"email\": \"whitney.simmons@gmail.com\",\r\n"
@@ -55,7 +101,7 @@ public class MockTestData {
 		return user;
 	}
 
-	public UserRequestData getUserReqestData() {
+	public UserRequestData getUserRequestData() {
 		String userJsonString = "{\r\n" + "  \"id\": 101,\r\n" + "  \"firstName\": \"Whitney\",\r\n"
 				+ "  \"lastName\": \"Simmons\",\r\n" + "  \"email\": \"whitney.simmons@gmail.com\",\r\n"
 				+ "  \"birthDate\": \"2018-07-27\"\r\n" + "}";
@@ -126,7 +172,7 @@ public class MockTestData {
 		return addressRequestDataList;
 	}
 
-	public List<AddressResponseData> getAddressResponeDataList() {
+	public List<AddressResponseData> getAddressResponseDataList() {
 		String addressListJsonString = "[\r\n" + "  {\r\n" + "    \"id\": 201,\r\n"
 				+ "    \"houseNumber\": \"201\",\r\n" + "    \"addressType\": \"HOME\",\r\n"
 				+ "    \"street\": \"Stains Road\",\r\n" + "    \"city\": \"London\",\r\n"
@@ -158,6 +204,34 @@ public class MockTestData {
 			e.printStackTrace();
 		}
 		return address;
+	}
+
+	public AddressResponseData getAddressResponseData() {
+		String addressJsonString = "{\r\n" + "  \"id\": 201,\r\n" + "  \"houseNumber\": \"201\",\r\n"
+				+ "  \"addressType\": \"HOME\",\r\n" + "  \"street\": \"Stains Road\",\r\n"
+				+ "  \"city\": \"London\",\r\n" + "  \"postCode\": \"TW33GE\",\r\n" + "  \"country\": \"UK\"\r\n" + "}";
+		ObjectMapper objectMapper = new ObjectMapper();
+		AddressResponseData addressResponseData = null;
+		try {
+			addressResponseData = objectMapper.readValue(addressJsonString, AddressResponseData.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return addressResponseData;
+	}
+
+	public AddressRequestData getAddressRequestData() {
+		String addressJsonString = "{\r\n" + "  \"id\": 201,\r\n" + "  \"houseNumber\": \"201\",\r\n"
+				+ "  \"addressType\": \"HOME\",\r\n" + "  \"street\": \"Stains Road\",\r\n"
+				+ "  \"city\": \"London\",\r\n" + "  \"postCode\": \"TW33GE\",\r\n" + "  \"country\": \"UK\"\r\n" + "}";
+		ObjectMapper objectMapper = new ObjectMapper();
+		AddressRequestData addressRequestData = null;
+		try {
+			addressRequestData = objectMapper.readValue(addressJsonString, AddressRequestData.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return addressRequestData;
 	}
 
 	public AccountResponseData getAccountResponseData() {

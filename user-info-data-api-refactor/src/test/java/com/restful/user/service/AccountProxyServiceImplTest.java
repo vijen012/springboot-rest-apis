@@ -19,7 +19,7 @@ public class AccountProxyServiceImplTest {
 
 	private static final String USER_ID = "101";
 	private static final String RESPONSE_BODY = "{\r\n" + "    \"accountId\": 1000,\r\n"
-			+ "    \"accountType\": \"Saving\",\r\n" + "    \"accountNumber\": \"98764532\",\r\n"
+			+ "    \"accountType\": \"SAVING\",\r\n" + "    \"accountNumber\": \"98764532\",\r\n"
 			+ "    \"amount\": 10000\r\n" + "}";
 
 	private AccountProxyServiceImpl accountProxyServiceImpl;

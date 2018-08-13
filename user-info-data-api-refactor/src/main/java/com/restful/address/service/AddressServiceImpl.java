@@ -26,11 +26,9 @@ public class AddressServiceImpl implements AddressService {
 	@Autowired
 	private UserRepository userRepositroy;
 
-	@Autowired
-	private AddressDataMapper addressDataMapper;
-
 	@Override
 	public List<AddressResponseData> findAllAddressByUserId(Long userId) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("UserId " + userId + " doesn't exist !!");
@@ -42,6 +40,7 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public AddressResponseData findAddress(Long addressId) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		Optional<Address> addressOptional = addressRepository.findById(addressId);
 		if (!addressOptional.isPresent()) {
 			throw new AddressNotFoundException("AddressId " + addressId + " doesn't exist !!");
@@ -52,6 +51,7 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public AddressResponseData saveAddress(Long userId, AddressRequestData addressRequestData) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("UserId " + userId + " doesn't exist !!");
@@ -66,6 +66,7 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public AddressResponseData updateAddress(Long userId, Long addressId, AddressRequestData addressRequestData) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (userOptional.isPresent()) {
 			Optional<Address> addressOptional = addressRepository.findById(addressId);
@@ -86,6 +87,7 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public List<AddressResponseData> updateAllAddress(Long userId, List<AddressRequestData> addressRequestDataList) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		Optional<User> userOptional = userRepositroy.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("UserId " + userId + " doesn't exist !!");

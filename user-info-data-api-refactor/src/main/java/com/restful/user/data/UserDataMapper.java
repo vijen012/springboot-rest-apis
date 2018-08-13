@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.restful.address.data.AddressDataMapper;
@@ -12,10 +11,8 @@ import com.restful.address.data.AddressDataMapper;
 @Component
 public class UserDataMapper {
 
-	@Autowired
-	private AddressDataMapper addressDataMapper;
-
 	public UserResponseData getUserResponseData(User user, AccountResponseData accountResponseData) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		UserResponseData userResponseData = new UserResponseData();
 		userResponseData.setId(user.getId());
 		userResponseData.setFirstName(user.getFirstName());
@@ -31,6 +28,7 @@ public class UserDataMapper {
 	}
 
 	public List<UserResponseData> getUserResponseDataList(Map<User, AccountResponseData> userResponseDataMap) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		List<UserResponseData> userResponseDataList = new ArrayList<>();
 		userResponseDataMap.forEach((user, accountResponseData) -> {
 			UserResponseData userResponseData = new UserResponseData();
@@ -51,6 +49,7 @@ public class UserDataMapper {
 	}
 
 	public User getUser(UserRequestData userRequestData) {
+		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		User user = new User();
 		user.setId(userRequestData.getId());
 		user.setFirstName(userRequestData.getFirstName());

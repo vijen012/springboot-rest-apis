@@ -30,11 +30,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AccountProxyService accountProxyService;
 
-	@Autowired
-	private UserDataMapper userDataMapper;
-
 	@Override
 	public List<UserResponseData> findAllUser(int pageNumber, int pageSize) {
+		UserDataMapper userDataMapper = new UserDataMapper();
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, new Sort(Direction.ASC, "firstName"));
 		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
 		userRepository.findAll(pageable).forEach(user -> {
@@ -46,6 +44,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserResponseData> findAllUserByFirstNameAndLastName(String firstName, String lastName) {
+		UserDataMapper userDataMapper = new UserDataMapper();
 		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
 		userRepository.findByFirstNameAndLastName(firstName, lastName).forEach(user -> {
 			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(user.getId());
@@ -56,6 +55,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserResponseData> findAllUserByEmail(String email) {
+		UserDataMapper userDataMapper = new UserDataMapper();
 		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
 		userRepository.findByEmailLike("%" + email + "%").forEach(user -> {
 			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(user.getId());
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponseData findUser(Long id) {
+		UserDataMapper userDataMapper = new UserDataMapper();
 		Optional<User> optional = userRepository.findById(id);
 		if (!optional.isPresent()) {
 			throw new UserNotFoundException("UserId " + id + " doesn't exist !!");
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponseData saveUser(UserRequestData userRequestData) {
+		UserDataMapper userDataMapper = new UserDataMapper();
 		User user = userDataMapper.getUser(userRequestData);
 		if (user.getAddressList() != null) {
 			// If we are passing address with user then we have to do reverse assoication by
@@ -101,6 +103,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponseData updateUser(Long id, UserRequestData userRequestData) {
+		UserDataMapper userDataMapper = new UserDataMapper();
 		Optional<User> userOptional = userRepository.findById(id);
 		if (userOptional.isPresent()) {
 			User user = userDataMapper.getUser(userRequestData);
