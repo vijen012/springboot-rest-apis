@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -34,13 +35,16 @@ import com.restful.user.data.User;
 import com.restful.user.repos.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PostServiceImplTest {
+public class AddressServiceImplTest {
 
 	@Mock
 	private AddressRepository addressRepository;
 
 	@Mock
 	private UserRepository userRepository;
+
+	@Mock
+	private Logger logger;
 
 	@Autowired
 	@InjectMocks

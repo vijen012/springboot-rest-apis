@@ -1,5 +1,6 @@
 package com.restful.user.service;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,13 +19,15 @@ import com.restful.user.data.AccountResponseData;
 public class AccountProxyServiceImpl implements AccountProxyService {
 
 	private final RestTemplate restTemplate;
+	private final Logger logger;
 
 	@Value("${accountServiceUrl}")
 	private String accountServiceUrl;
 
 	@Autowired
-	public AccountProxyServiceImpl(RestTemplate restTemplate) {
+	public AccountProxyServiceImpl(RestTemplate restTemplate, Logger logger) {
 		this.restTemplate = restTemplate;
+		this.logger = logger;
 	}
 
 	public void setAccountServiceUrl(String accountServiceUrl) {
@@ -33,6 +36,7 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 
 	@Override
 	public AccountResponseData getAccountDetail(Long userId) {
+		logger.trace(userId + " Enter --->");
 		String url = accountServiceUrl + "/accounts?userId=" + userId;
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -40,11 +44,16 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 //		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<AccountResponseData> responseEntity = null;
 		try {
+			logger.info("making a http request to account-request-data api for userId: " + userId);
 			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, AccountResponseData.class);
 		} catch (HttpClientErrorException ex) {
-			throw new ResourceNotFoundException("request resource url " + url + " doesn't exist");
+			ResourceNotFoundException resourceNotFoundException = new ResourceNotFoundException(
+					"request resource url " + url + " doesn't exist");
+			logger.error(resourceNotFoundException + " <--- Exit");
+			throw resourceNotFoundException;
 			// return null;
 		}
+		logger.trace(userId + " <--- Exit");
 		return responseEntity.getBody();
 	}
 }

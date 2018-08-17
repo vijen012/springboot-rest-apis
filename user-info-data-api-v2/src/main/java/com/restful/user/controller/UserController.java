@@ -3,8 +3,10 @@ package com.restful.user.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,43 +33,68 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private Logger logger;
 	/*
 	 * @Value("${accountApiUrl}") private String accountApiUrl;
 	 */
 
 	@GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UserResponseData>> getAllUsers(
-			@RequestHeader(value = "x-request-header", required = true) @Valid String requestHeader,
-			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "20", required = false) int pageSize) {
-		return new ResponseEntity<List<UserResponseData>>(userService.findAllUser(pageNumber, pageSize), HttpStatus.OK);
+			@RequestHeader(value = "x-request-header", required = true) @Valid final String requestHeader,
+			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) final int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "20", required = false) final int pageSize,
+			final HttpServletRequest request) {
+		logger.trace("Enter ---> " + request.getRequestURI());
+		logger.info("Fetching " + pageSize + " records for page " + pageNumber);
+		ResponseEntity<List<UserResponseData>> responseEntity = new ResponseEntity<List<UserResponseData>>(
+				userService.findAllUser(pageNumber, pageSize), HttpStatus.OK);
+		logger.trace("<---Exit");
+		return responseEntity;
 	}
 
 	@GetMapping(path = "/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserResponseData> getUser(@PathVariable Long userId) {
-		return new ResponseEntity<UserResponseData>(userService.findUser(userId), HttpStatus.OK);
+	public ResponseEntity<UserResponseData> getUser(@PathVariable final Long userId, final HttpServletRequest request) {
+		logger.trace("Enter ---> " + request.getRequestURL());
+		ResponseEntity<UserResponseData> responseEntity = new ResponseEntity<UserResponseData>(
+				userService.findUser(userId), HttpStatus.OK);
+		logger.trace(userId + " <---Exit");
+		return responseEntity;
 	}
 
 	@PostMapping(path = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponseData> createUser(
-			@Valid @RequestBody(required = true) UserRequestData userRequestData) {
+			@Valid @RequestBody(required = true) final UserRequestData userRequestData,
+			final HttpServletRequest request) {
+		logger.trace("Enter ---> " + request.getRequestURL());
 		UserResponseData savedUser = userService.saveUser(userRequestData);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
 				.toUri();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(location);
-		return new ResponseEntity<UserResponseData>(savedUser, headers, HttpStatus.CREATED);
+		ResponseEntity<UserResponseData> responseEntity = new ResponseEntity<UserResponseData>(savedUser, headers,
+				HttpStatus.CREATED);
+		logger.trace("<---Exit");
+		return responseEntity;
 	}
 
 	@DeleteMapping(path = "/users/{userId}")
-	public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-		return new ResponseEntity<Void>(userService.deleteUser(userId));
+	public ResponseEntity<Void> deleteUser(@PathVariable final Long userId, final HttpServletRequest request) {
+		logger.trace("Enter ---> " + request.getRequestURL());
+		ResponseEntity<Void> responseEntity = new ResponseEntity<Void>(userService.deleteUser(userId));
+		logger.trace(userId + " <---Exit");
+		return responseEntity;
 	}
 
 	@PutMapping(path = "/users/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserResponseData> updateUser(@PathVariable Long userId,
-			@Valid @RequestBody(required = true) UserRequestData userRequestData) {
-		return new ResponseEntity<UserResponseData>(userService.updateUser(userId, userRequestData), HttpStatus.OK);
+	public ResponseEntity<UserResponseData> updateUser(@PathVariable final Long userId,
+			@Valid @RequestBody(required = true) final UserRequestData userRequestData,
+			final HttpServletRequest request) {
+		logger.trace("Enter ---> " + request.getRequestURL());
+		ResponseEntity<UserResponseData> responseEntity = new ResponseEntity<UserResponseData>(
+				userService.updateUser(userId, userRequestData), HttpStatus.OK);
+		logger.trace(userId + " <---Exit");
+		return responseEntity;
 	}
 
 //	/*------------------------Custome Finder Methods----------------------------*/

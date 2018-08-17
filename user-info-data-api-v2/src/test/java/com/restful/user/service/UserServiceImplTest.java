@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,6 +44,9 @@ public class UserServiceImplTest {
 
 	@Mock
 	private AccountProxyService accountProxyService;
+
+	@Mock
+	private Logger logger;
 
 	@InjectMocks
 	@Autowired
