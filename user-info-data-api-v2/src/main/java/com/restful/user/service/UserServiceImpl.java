@@ -1,6 +1,6 @@
 package com.restful.user.service;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,7 +39,8 @@ public class UserServiceImpl implements UserService {
 		logger.trace("Enter ---> ");
 		UserDataMapper userDataMapper = new UserDataMapper();
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, new Sort(Direction.ASC, "firstName"));
-		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
+//		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
+		Map<User, AccountResponseData> userResponseDataMap = new LinkedHashMap<>();
 		logger.info("fetching user records --->");
 		userRepository.findAll(pageable).forEach(user -> {
 			logger.info("fetching account details from account-info-data api for userId: " + user.getId());
@@ -56,7 +57,8 @@ public class UserServiceImpl implements UserService {
 	public List<UserResponseData> findAllUserByFirstNameAndLastName(String firstName, String lastName) {
 		logger.trace("Enter ---> ");
 		UserDataMapper userDataMapper = new UserDataMapper();
-		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
+//		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
+		Map<User, AccountResponseData> userResponseDataMap = new LinkedHashMap<>();
 		logger.info("fetching user records --->");
 		userRepository.findByFirstNameAndLastName(firstName, lastName).forEach(user -> {
 			logger.info("fetching account details from account-info-data-api for userId: " + user.getId());
@@ -73,7 +75,8 @@ public class UserServiceImpl implements UserService {
 	public List<UserResponseData> findAllUserByEmail(String email) {
 		logger.trace("Enter ---> ");
 		UserDataMapper userDataMapper = new UserDataMapper();
-		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
+//		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
+		Map<User, AccountResponseData> userResponseDataMap = new LinkedHashMap<>();
 		logger.info("fetching user records --->");
 		userRepository.findByEmailLike("%" + email + "%").forEach(user -> {
 			logger.info("fetching account details from account-info-data-api for userId: " + user.getId());
