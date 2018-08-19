@@ -53,7 +53,7 @@ public class UserControllerIT {
 
 	@Test
 	public void getAllUsers_ShouldReturnAllTheUsersWhichAreStoredInDatabase() throws Exception {
-		String userResponseDataList = mockITData.getAllUsers();
+		String userJsonArray = mockITData.getAllUsers();
 		// @formatter:off
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users")
 				.param("pageNumber", "0")
@@ -65,7 +65,7 @@ public class UserControllerIT {
 				.andExpect(jsonPath("$[0].firstName", is("Alex")))
 				.andExpect(jsonPath("$[1].firstName", is("Alex")))
 				.andExpect(jsonPath("$[2].firstName", is("Bill")))
-				.andExpect(content().json(userResponseDataList))
+				.andExpect(content().json(userJsonArray))
 				.andReturn();
 		// @formatter:on
 	}
@@ -80,8 +80,7 @@ public class UserControllerIT {
 		MvcResult result = mockMvc.perform(requestBuilder).andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.statusCode", is(400)))
 				.andExpect(jsonPath("$.message", is("Missing request header 'x-request-header' for method parameter of type String")))
-				.andReturn();
-		System.out.println(result.getResponse().getContentAsString());
+				.andReturn();		
 		// @formatter:on
 	}
 

@@ -13,6 +13,10 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.restful.mock.MockTestData;
 import com.restful.user.data.AccountResponseData;
 
 import net.jadler.Jadler;
@@ -21,14 +25,15 @@ import net.jadler.stubbing.server.jdk.JdkStubHttpServer;
 public class AccountProxyServiceImplTest {
 
 	private static final String USER_ID = "101";
-	private static final String RESPONSE_BODY = "{\r\n" + "    \"accountId\": 1000,\r\n"
-			+ "    \"accountType\": \"SAVING\",\r\n" + "    \"accountNumber\": \"98764532\",\r\n"
-			+ "    \"amount\": 10000\r\n" + "}";
-
-	private AccountProxyServiceImpl accountProxyServiceImpl;
 
 	@Mock
 	private Logger logger;
+
+	private ObjectMapper objectMapper;
+
+	private AccountProxyServiceImpl accountProxyServiceImpl;
+
+	private MockTestData mockTestData;
 
 	@Before
 	public void setUp() throws Exception {
@@ -38,6 +43,9 @@ public class AccountProxyServiceImplTest {
 		MockitoAnnotations.initMocks(this);
 		initJadlerUsing(new JdkStubHttpServer());
 		accountProxyServiceImpl = new AccountProxyServiceImpl(new RestTemplate(), logger);
+		objectMapper = new ObjectMapper();
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mockTestData = new MockTestData();
 	}
 
 	@After
@@ -46,7 +54,10 @@ public class AccountProxyServiceImplTest {
 	}
 
 	@Test
-	public void getAccountDetails_ShouldReturnAccountDetailsWhenAccountDetailsExistForGivenUserId() {
+	public void getAccountDetails_ShouldReturnAccountDetailsWhenAccountDetailsExistForGivenUserId()
+			throws JsonProcessingException {
+		AccountResponseData accountResData = mockTestData.getAccountResponseData();
+		final String BODY = objectMapper.writeValueAsString(accountResData);
 		// @formatter:off
 		onRequest()
 			.havingMethodEqualTo("GET")			
@@ -55,7 +66,7 @@ public class AccountProxyServiceImplTest {
 			.havingHeaderEqualTo("Accept", "application/json")					
 		.respond()
 			.withStatus(200)
-			.withBody(RESPONSE_BODY)
+			.withBody(BODY)
 			.withContentType("application/json; charset=UTF-8");
 		// @formatter:on
 		accountProxyServiceImpl.setAccountServiceUrl("http://localhost:" + Jadler.port());
