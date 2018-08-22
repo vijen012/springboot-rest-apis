@@ -57,7 +57,7 @@ public class UserDataMapper {
 		user.setEmail(userRequestData.getEmail());
 		user.setBirthDate(userRequestData.getBirthDate());
 		if (userRequestData.getAddressRequestDataList() != null) {
-			user.setAddrssList(addressDataMapper.getAddressList(userRequestData.getAddressRequestDataList()));
+			user.setAddressList(addressDataMapper.getAddressList(userRequestData.getAddressRequestDataList()));
 		}
 		return user;
 	}

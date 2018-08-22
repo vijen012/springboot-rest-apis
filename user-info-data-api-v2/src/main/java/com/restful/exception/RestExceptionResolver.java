@@ -107,4 +107,12 @@ public class RestExceptionResolver extends ResponseEntityExceptionHandler {
 		String message = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
 		return message;
 	}
+
+	@ExceptionHandler(LoggableTimeoutException.class)
+	public final ResponseEntity<Object> hystrixTimeoutException(ResourceNotFoundException ex, WebRequest request) {
+		exceptionLogger.error("Exception: " + ex);
+		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage(),
+				request.getDescription(false), new Date());
+		return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
 }

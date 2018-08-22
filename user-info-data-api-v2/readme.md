@@ -6,6 +6,11 @@
  - http://localhost:7070/actuator or http://localhost:7070/application
  - Hal Browser - http://localhost:7070/browser/index.html#/
  
+# Hystrix
+ - hystrix stream url - http://localhost:7070/actuator/hystrix.stream 
+ - hystrix dashboard url - http://localhost:7070/hystrix
+ - use 'http://localhost:7070/actuator/hystrix.stream ' url on hystrix dashboard and give the service name and hit enter
+ 
 # Database Details:
 Go to H2 Console- 
 http://localhost:7070/h2-console

@@ -3,36 +3,36 @@ package com.restful.address.data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel
 public class AddressRequestData {
 
 	private Long id;
-
-	@ApiModelProperty(notes = "must be HOME, WORK AND OFFICE")
 	private AddressType addressType;
 
-	@ApiModelProperty(notes = "must not be blank or empty")
+	@ApiModelProperty(notes = "houseNumber must not be blank or empty")
 	@NotBlank(message = "houseNumber must not be blank")
 	@NotEmpty(message = "houseNumber must not be empty")
 	private String houseNumber;
 
-	@ApiModelProperty(notes = "must not be blank or empty")
+	@ApiModelProperty(notes = "street must not be blank or empty")
 	@NotBlank(message = "street must not be blank")
 	@NotEmpty(message = "street must not be empty")
 	private String street;
 
-	@ApiModelProperty(notes = "must not be blank or empty")
+	@ApiModelProperty(notes = "city must not be blank or empty")
 	@NotBlank(message = "city must not be blank")
 	@NotEmpty(message = "city must not be empty")
 	private String city;
 
-	@ApiModelProperty(notes = "must not be blank or null")
+	@ApiModelProperty(notes = "postcode must not be blank or empty")
 	@NotBlank(message = "postcode must not be blank")
 	@NotEmpty(message = "postcode must not be empty")
 	private String postCode;
 
-	@ApiModelProperty(notes = "must not be blank or null")
+	@ApiModelProperty(notes = "country must not be blank or empty")
 	@NotBlank(message = "country must not be blank")
 	@NotEmpty(message = "country must not be empty")
 	private String country;

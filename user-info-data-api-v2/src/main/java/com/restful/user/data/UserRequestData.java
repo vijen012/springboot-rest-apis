@@ -13,26 +13,26 @@ import com.restful.address.data.AddressRequestData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(description = "All details about the user")
 //@JsonFilter("UserFilter")
+@ApiModel
 public class UserRequestData {
 
 	private Long id;
 
-	@Size(min = 2, message = "firstName attribute should be atleast 2 char long")
-	@ApiModelProperty(notes = "firstName should be atleast 2 character long")
+	@ApiModelProperty(notes = "firstName attribute must be atleast 2 char long")
+	@Size(min = 2, message = "firstName attribute must be atleast 2 char long")
 	private String firstName;
 
-	@Size(min = 2, message = "lastName attribute should be atleast 2 char long")
-	@ApiModelProperty(notes = "lastName should be atleast 2 character long")
+	@ApiModelProperty(notes = "lastName attribute must be atleast 2 char long")
+	@Size(min = 2, message = "lastName attribute must be atleast 2 char long")
 	private String lastName;
 
-	@Email(message = "email should be valid")
-	@ApiModelProperty(notes = "email should be valid")
+	@ApiModelProperty(notes = "email must be valid")
+	@Email(message = "email must be valid")
 	private String email;
 
-	@Past(message = "birthDate should be in past")
-	@ApiModelProperty(notes = "birthdate should be in past")
+	@ApiModelProperty(notes = "birthDate must be in past")
+	@Past(message = "birthDate must be in past")
 	private LocalDate birthDate;
 
 	@JsonProperty("addresses")
@@ -89,7 +89,7 @@ public class UserRequestData {
 		return addressRequestDataList;
 	}
 
-	public void setAddrssRequestDataList(List<AddressRequestData> addressRequestDataList) {
+	public void setAddressRequestDataList(List<AddressRequestData> addressRequestDataList) {
 		this.addressRequestDataList = addressRequestDataList;
 	}
 

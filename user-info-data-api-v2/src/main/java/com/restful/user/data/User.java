@@ -84,7 +84,7 @@ public class User {
 		return addressList;
 	}
 
-	public void setAddrssList(List<Address> addressList) {
+	public void setAddressList(List<Address> addressList) {
 		this.addressList = addressList;
 	}
 

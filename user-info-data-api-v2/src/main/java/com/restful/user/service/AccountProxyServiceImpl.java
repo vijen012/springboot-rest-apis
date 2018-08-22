@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.exception.HystrixTimeoutException;
+import com.restful.exception.LoggableTimeoutException;
 import com.restful.exception.ResourceNotFoundException;
 import com.restful.user.data.AccountResponseData;
 
@@ -35,6 +38,7 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 	}
 
 	@Override
+	@HystrixCommand(fallbackMethod = "fallbackGetAccountDetail", commandKey = "accountService")
 	public AccountResponseData getAccountDetail(Long userId) {
 		logger.trace(userId + " Enter --->");
 		String url = accountServiceUrl + "/accounts?userId=" + userId;
@@ -55,5 +59,23 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 		}
 		logger.trace(userId + " <--- Exit");
 		return responseEntity.getBody();
+	}
+
+	private AccountResponseData fallbackGetAccountDetail(Long userId, Throwable cause) {
+		fallback(userId, cause);
+		return null;
+	}
+
+	private void fallback(Long userId, Throwable cause) {
+		logger.trace(userId + " Enter  --->");
+		if (cause instanceof HystrixTimeoutException) {
+			LoggableTimeoutException loggableTimeoutException = new LoggableTimeoutException(
+					"HystrixTimeoutException occured while making a call to account-info-api", cause);
+			logger.error("userId: " + userId, loggableTimeoutException);
+		} else {
+			logger.error("userId: " + userId, cause);
+		}
+		logger.trace(userId + " <--- Exit");
+
 	}
 }

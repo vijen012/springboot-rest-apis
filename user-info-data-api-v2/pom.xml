@@ -34,17 +34,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<!-- Implementing Basic Authentication with Spring Security -->
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
 
 		<!-- Monitoring APIs with spring actuator -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-rest-hal-browser</artifactId>
@@ -55,6 +60,9 @@
 		<!-- <dependency> <groupId>com.fasterxml.jackson.dataformat</groupId> <artifactId>jackson-dataformat-xml</artifactId> 
 			</dependency> -->
 
+		<!-- Implementing Basic Authentication with Spring Security -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
+			</dependency> -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -101,6 +109,10 @@
 			<version>1.2.3</version> </dependency> -->
 	</dependencies>
 
+	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>org.springframework.cloud</groupId> 
+		<artifactId>spring-cloud-dependencies</artifactId> <version>Finchley.RELEASE</version> 
+		<type>pom</type> <scope>import</scope> </dependency> </dependencies> </dependencyManagement> -->
+
 	<build>
 		<plugins>
 			<plugin>
@@ -109,6 +121,10 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!-- <repositories> <repository> <id>spring-milestones</id> <name>Spring 
+		Milestones</name> <url>https://repo.spring.io/libs-milestone</url> <snapshots> 
+		<enabled>false</enabled> </snapshots> </repository> </repositories> -->
 
 
 </project>

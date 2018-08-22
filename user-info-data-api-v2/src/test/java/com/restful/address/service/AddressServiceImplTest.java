@@ -66,7 +66,7 @@ public class AddressServiceImplTest {
 	public void findAllAddressByUserId_ShouldReturnAllTheAddressForTheUserWhenUserIsExistAndAddressIsNotNullOrEmpty() {
 		User user = mockTestData.getUser();
 		List<Address> addressList = mockTestData.getAddressList();
-		user.setAddrssList(addressList);
+		user.setAddressList(addressList);
 		Optional<User> optionalUser = Optional.of(user);
 		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
 		assertThat(addressService.findAllAddressByUserId(anyLong())).hasSize(2);
@@ -77,7 +77,7 @@ public class AddressServiceImplTest {
 	public void findAllAddressByUserId_ShouldReturnEmptyListForTheUserWhenUserIsExistAndAddressIsNullOrEmpty() {
 		User user = mockTestData.getUser();
 		List<Address> addressList = new ArrayList<>();
-		user.setAddrssList(addressList);
+		user.setAddressList(addressList);
 		Optional<User> optionalUser = Optional.of(user);
 		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
 		assertThat(addressService.findAllAddressByUserId(anyLong())).hasSize(0);
@@ -212,7 +212,7 @@ public class AddressServiceImplTest {
 	public void deleteAllAddress_ShouldReturnHttpStatusNoContentWhenUserIsExistAndAddressListIsNotEmpty() {
 		User user = mockTestData.getUser();
 		List<Address> addressList = mockTestData.getAddressList();
-		user.setAddrssList(addressList);
+		user.setAddressList(addressList);
 		Optional<User> optionalUser = Optional.of(user);
 		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
 		doNothing().when(addressRepository).deleteAll(anyIterable());
@@ -225,7 +225,7 @@ public class AddressServiceImplTest {
 	public void deleteAllAddress_ShouldReturnHttpStatusAcceptedWhenUserIsExistButAddressListIsEmpty() {
 		User user = mockTestData.getUser();
 		List<Address> addressList = new ArrayList<>();
-		user.setAddrssList(addressList);
+		user.setAddressList(addressList);
 		Optional<User> optionalUser = Optional.of(user);
 		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
 		assertThat(addressService.deleteAllAddress(anyLong())).isEqualTo(HttpStatus.ACCEPTED);

@@ -130,9 +130,9 @@ public class UserServiceImplTest {
 	@Test
 	public void saveUser_ShouldReturnSameUserInstanceAfterSavedWhenAddressesAssociateWithUserInstance() {
 		User user = mockTestData.getUser();
-		user.setAddrssList(mockTestData.getAddressList());
+		user.setAddressList(mockTestData.getAddressList());
 		UserRequestData userRequestData = mockTestData.getUserRequestData();
-		userRequestData.setAddrssRequestDataList(mockTestData.getAddressRequstDataList());
+		userRequestData.setAddressRequestDataList(mockTestData.getAddressRequstDataList());
 		UserResponseData userResponseData = mockTestData.getUserResponseData();
 		userResponseData.setAddressResponseDataList(mockTestData.getAddressResponseDataList());
 		when(userRepository.save(any(User.class))).thenReturn(user);
@@ -176,9 +176,9 @@ public class UserServiceImplTest {
 	@Test
 	public void updateUser_ShouldReturnSameUserInstanceAfterSavedWhenAddressesAssociateWithUserInstance() {
 		User user = mockTestData.getUser();
-		user.setAddrssList(mockTestData.getAddressList());
+		user.setAddressList(mockTestData.getAddressList());
 		UserRequestData userRequestData = mockTestData.getUserRequestData();
-		userRequestData.setAddrssRequestDataList(mockTestData.getAddressRequstDataList());
+		userRequestData.setAddressRequestDataList(mockTestData.getAddressRequstDataList());
 		UserResponseData userResponseData = mockTestData.getUserResponseData();
 		userResponseData.setAddressResponseDataList(mockTestData.getAddressResponseDataList());
 		Optional<User> userOptional = Optional.of(user);

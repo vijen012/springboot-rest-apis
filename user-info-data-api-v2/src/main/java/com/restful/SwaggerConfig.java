@@ -16,18 +16,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-	
-	  public static final Contact DEFAULT_CONTACT = new Contact("Vijen Malav", "https://github.com/vijen012/", "vmalav@sapient.com");
-	  public static final ApiInfo DEFAULT_API_INFO = new ApiInfo("User Api", "User Api Documentation", "1.0", "urn:tos",
-	          DEFAULT_CONTACT, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0");
-	  private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = 
-			new HashSet<>(Arrays.asList("application/json", "applicaton/xml"));
+
+	public static final Contact DEFAULT_CONTACT = new Contact("Vijen Malav", "https://github.com/vijen012/",
+			"vmalav@sapient.com");
+	public static final ApiInfo DEFAULT_API_INFO = new ApiInfo("User Api", "User Api Documentation", "1.0", "urn:tos",
+			DEFAULT_CONTACT, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0");
+	private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = new HashSet<>(Arrays.asList("application/json"));
 
 	@Bean
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.apiInfo(DEFAULT_API_INFO)
-				.produces(DEFAULT_PRODUCES_AND_CONSUMES)
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(DEFAULT_API_INFO).produces(DEFAULT_PRODUCES_AND_CONSUMES)
 				.consumes(DEFAULT_PRODUCES_AND_CONSUMES);
 	}
 }
