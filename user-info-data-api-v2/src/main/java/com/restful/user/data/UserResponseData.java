@@ -14,8 +14,8 @@ public class UserResponseData {
 	private String email;
 	private LocalDate birthDate;
 
-	@JsonProperty("account")
-	private AccountResponseData accountResponseData;
+	@JsonProperty("accounts")
+	private List<AccountResponseData> accountResponseDataList;
 
 	@JsonProperty("addresses")
 	private List<AddressResponseData> addressResponseDataList;
@@ -64,12 +64,12 @@ public class UserResponseData {
 		this.birthDate = birthDate;
 	}
 
-	public AccountResponseData getAccountResponseData() {
-		return accountResponseData;
+	public List<AccountResponseData> getAccountResponseDataList() {
+		return accountResponseDataList;
 	}
 
-	public void setAccountResponseData(AccountResponseData accountResponseData) {
-		this.accountResponseData = accountResponseData;
+	public void setAccountResponseDataList(List<AccountResponseData> accountResponseDataList) {
+		this.accountResponseDataList = accountResponseDataList;
 	}
 
 	public List<AddressResponseData> getAddressResponseDataList() {

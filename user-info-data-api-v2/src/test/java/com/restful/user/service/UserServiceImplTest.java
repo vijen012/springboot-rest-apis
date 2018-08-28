@@ -68,10 +68,10 @@ public class UserServiceImplTest {
 		Pageable pageable = PageRequest.of(0, 3, new Sort(Direction.ASC, "firstName"));
 		Page<User> pageUsers = new PageImpl<>(userList, pageable, userList.size());
 		when(userRepository.findAll(pageable)).thenReturn(pageUsers);
-		when(accountProxyService.getAccountDetail(anyLong())).thenReturn(mockTestData.getAccountResponseData());
+		when(accountProxyService.getAccountsDetail(anyLong())).thenReturn(mockTestData.getAccountResponseDataList());
 		assertThat(userService.findAllUser(0, 3)).hasSize(3);
 		verify(userRepository, times(1)).findAll(pageable);
-		verify(accountProxyService, times(3)).getAccountDetail(anyLong());
+		verify(accountProxyService, times(3)).getAccountsDetail(anyLong());
 	}
 
 	@Test
@@ -86,16 +86,16 @@ public class UserServiceImplTest {
 
 	@Test
 	public void findUser_ShouldReturnTheUserWhenUserIdIsValidAndAccountObjectIsNotNull() {
-		AccountResponseData accountResponseData = mockTestData.getAccountResponseData();
+		List<AccountResponseData> accountResponseDataList = mockTestData.getAccountResponseDataList();
 		UserResponseData userResponseData = mockTestData.getUserResponseData();
-		userResponseData.setAccountResponseData(accountResponseData);
+		userResponseData.setAccountResponseDataList(accountResponseDataList);
 		Optional<User> userOptional = Optional.of(mockTestData.getUser());
 		when(userRepository.findById(anyLong())).thenReturn(userOptional);
-		when(accountProxyService.getAccountDetail(anyLong())).thenReturn(accountResponseData);
+		when(accountProxyService.getAccountsDetail(anyLong())).thenReturn(accountResponseDataList);
 		assertThat(userService.findUser(101L).toString()).isEqualTo(userResponseData.toString());
-		assertThat(userService.findUser(101L).getAccountResponseData()).isEqualTo(accountResponseData);
+		assertThat(userService.findUser(101L).getAccountResponseDataList()).isEqualTo(accountResponseDataList);
 		verify(userRepository, times(2)).findById(anyLong());
-		verify(accountProxyService, times(2)).getAccountDetail(anyLong());
+		verify(accountProxyService, times(2)).getAccountsDetail(anyLong());
 	}
 
 	@Test
@@ -103,11 +103,11 @@ public class UserServiceImplTest {
 		UserResponseData userResponseData = mockTestData.getUserResponseData();
 		Optional<User> userOptional = Optional.of(mockTestData.getUser());
 		when(userRepository.findById(anyLong())).thenReturn(userOptional);
-		when(accountProxyService.getAccountDetail(anyLong())).thenReturn(null);
+		when(accountProxyService.getAccountsDetail(anyLong())).thenReturn(null);
 		assertThat(userService.findUser(101L).toString()).isEqualTo(userResponseData.toString());
-		assertThat(userService.findUser(101L).getAccountResponseData()).isEqualTo(null);
+		assertThat(userService.findUser(101L).getAccountResponseDataList()).isEqualTo(null);
 		verify(userRepository, times(2)).findById(anyLong());
-		verify(accountProxyService, times(2)).getAccountDetail(anyLong());
+		verify(accountProxyService, times(2)).getAccountsDetail(anyLong());
 	}
 
 	@Test(expected = UserNotFoundException.class)

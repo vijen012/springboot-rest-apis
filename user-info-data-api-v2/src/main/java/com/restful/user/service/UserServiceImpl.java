@@ -39,14 +39,13 @@ public class UserServiceImpl implements UserService {
 		logger.trace("Enter ---> ");
 		UserDataMapper userDataMapper = new UserDataMapper();
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, new Sort(Direction.ASC, "firstName"));
-//		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
-		Map<User, AccountResponseData> userResponseDataMap = new LinkedHashMap<>();
+		Map<User, List<AccountResponseData>> userResponseDataMap = new LinkedHashMap<>();
 		logger.info("fetching user records --->");
 		userRepository.findAll(pageable).forEach(user -> {
-			logger.info("fetching account details from account-info-data api for userId: " + user.getId());
-			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(user.getId());
-			logger.info("fetched account details for userId ---> " + user.getId());
-			userResponseDataMap.put(user, accountResponseData);
+			logger.info("fetching accounts detail from account-info-data api for userId: " + user.getId());
+			List<AccountResponseData> accountResponseDataList = accountProxyService.getAccountsDetail(user.getId());
+			logger.info("fetched accounts detail for userId ---> " + user.getId());
+			userResponseDataMap.put(user, accountResponseDataList);
 		});
 		List<UserResponseData> userResponseDataList = userDataMapper.getUserResponseDataList(userResponseDataMap);
 		logger.trace("<--- Exit");
@@ -57,14 +56,13 @@ public class UserServiceImpl implements UserService {
 	public List<UserResponseData> findAllUserByFirstNameAndLastName(String firstName, String lastName) {
 		logger.trace("Enter ---> ");
 		UserDataMapper userDataMapper = new UserDataMapper();
-//		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
-		Map<User, AccountResponseData> userResponseDataMap = new LinkedHashMap<>();
+		Map<User, List<AccountResponseData>> userResponseDataMap = new LinkedHashMap<>();
 		logger.info("fetching user records --->");
 		userRepository.findByFirstNameAndLastName(firstName, lastName).forEach(user -> {
-			logger.info("fetching account details from account-info-data-api for userId: " + user.getId());
-			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(user.getId());
-			logger.info("fetched account details for userId ---> " + user.getId());
-			userResponseDataMap.put(user, accountResponseData);
+			logger.info("fetching accounts detail from account-info-data api for userId: " + user.getId());
+			List<AccountResponseData> accountResponseDataList = accountProxyService.getAccountsDetail(user.getId());
+			logger.info("fetched accounts detail for userId ---> " + user.getId());
+			userResponseDataMap.put(user, accountResponseDataList);
 		});
 		List<UserResponseData> userResponseDataList = userDataMapper.getUserResponseDataList(userResponseDataMap);
 		logger.trace("<--- Exit");
@@ -75,14 +73,13 @@ public class UserServiceImpl implements UserService {
 	public List<UserResponseData> findAllUserByEmail(String email) {
 		logger.trace("Enter ---> ");
 		UserDataMapper userDataMapper = new UserDataMapper();
-//		Map<User, AccountResponseData> userResponseDataMap = new HashMap<>();
-		Map<User, AccountResponseData> userResponseDataMap = new LinkedHashMap<>();
+		Map<User, List<AccountResponseData>> userResponseDataMap = new LinkedHashMap<>();
 		logger.info("fetching user records --->");
 		userRepository.findByEmailLike("%" + email + "%").forEach(user -> {
-			logger.info("fetching account details from account-info-data-api for userId: " + user.getId());
-			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(user.getId());
-			logger.info("fetched account details for userId ---> " + user.getId());
-			userResponseDataMap.put(user, accountResponseData);
+			logger.info("fetching accounts detail from account-info-data api for userId: " + user.getId());
+			List<AccountResponseData> accountResponseDataList = accountProxyService.getAccountsDetail(user.getId());
+			logger.info("fetched accounts detail for userId ---> " + user.getId());
+			userResponseDataMap.put(user, accountResponseDataList);
 		});
 		List<UserResponseData> userResponseDataList = userDataMapper.getUserResponseDataList(userResponseDataMap);
 		logger.trace("<--- Exit");
@@ -101,9 +98,10 @@ public class UserServiceImpl implements UserService {
 			logger.error(userNotFoundException + " <--- Exit");
 			throw userNotFoundException;
 		} else {
-			logger.info("fetching account details from account-info-data api for userId: " + id);
-			AccountResponseData accountResponseData = accountProxyService.getAccountDetail(id);
-			UserResponseData userResponseData = userDataMapper.getUserResponseData(optional.get(), accountResponseData);
+			logger.info("fetching accounts detail from account-info-data api for userId: " + id);
+			List<AccountResponseData> accountResponseDataList = accountProxyService.getAccountsDetail(id);
+			UserResponseData userResponseData = userDataMapper.getUserResponseData(optional.get(),
+					accountResponseDataList);
 			logger.trace(id + " <--- Exit");
 			return userResponseData;
 		}
@@ -155,7 +153,7 @@ public class UserServiceImpl implements UserService {
 			logger.info("persisting user entity in database --->");
 			User savedUser = userRepository.save(user);
 			UserResponseData userResponseData = userDataMapper.getUserResponseData(savedUser,
-					userRequestData.getAccountResponseData());
+					userRequestData.getAccountResponseDataList());
 			logger.trace(id + " <--- Exit");
 			return userResponseData;
 		} else {

@@ -38,8 +38,8 @@ public class UserRequestData {
 	@JsonProperty("addresses")
 	private List<AddressRequestData> addressRequestDataList;
 
-	@JsonProperty("account")
-	private AccountResponseData accountResponseData;
+	@JsonProperty("accounts")
+	private List<AccountResponseData> accountResponseDataList;
 
 	public UserRequestData() {
 
@@ -93,12 +93,12 @@ public class UserRequestData {
 		this.addressRequestDataList = addressRequestDataList;
 	}
 
-	public AccountResponseData getAccountResponseData() {
-		return accountResponseData;
+	public List<AccountResponseData> getAccountResponseDataList() {
+		return accountResponseDataList;
 	}
 
-	public void setAccountResponseData(AccountResponseData accountResponseData) {
-		this.accountResponseData = accountResponseData;
+	public void setAccountResponseDataList(List<AccountResponseData> accountResponseDataList) {
+		this.accountResponseDataList = accountResponseDataList;
 	}
 
 	@Override

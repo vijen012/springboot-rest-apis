@@ -234,16 +234,21 @@ public class MockTestData {
 		return addressRequestData;
 	}
 
-	public AccountResponseData getAccountResponseData() {
-		String accountDataJsonString = "{\r\n" + "	\"accountId\": 1000,\r\n" + "	\"accountType\": \"SAVING\",\r\n"
-				+ "	\"accountNumber\": \"1223BBC\",\r\n" + "	\"amount\": 2000\r\n" + "}";
+	public List<AccountResponseData> getAccountResponseDataList() {
+		String accountDataJsonString = "[\r\n" + "  {\r\n" + "    \"accountId\": 1000,\r\n"
+				+ "    \"accountType\": \"SAVING\",\r\n" + "    \"accountNumber\": \"1223BBC\",\r\n"
+				+ "    \"amount\": 2000\r\n" + "  },\r\n" + "  {\r\n" + "    \"accountId\": 1000,\r\n"
+				+ "    \"accountType\": \"SAVING\",\r\n" + "    \"accountNumber\": \"1223BBC\",\r\n"
+				+ "    \"amount\": 2000\r\n" + "  }\r\n" + "]";
 		ObjectMapper objectMapper = new ObjectMapper();
-		AccountResponseData accountResponseData = null;
+		List<AccountResponseData> accountResponseDataList = null;
 		try {
-			accountResponseData = objectMapper.readValue(accountDataJsonString, AccountResponseData.class);
+			accountResponseDataList = objectMapper.readValue(accountDataJsonString,
+					new TypeReference<List<AccountResponseData>>() {
+					});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return accountResponseData;
+		return accountResponseDataList;
 	}
 }

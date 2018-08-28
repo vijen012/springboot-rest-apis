@@ -5,6 +5,8 @@ import static net.jadler.Jadler.initJadlerUsing;
 import static net.jadler.Jadler.onRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,12 +58,12 @@ public class AccountProxyServiceImplTest {
 	@Test
 	public void getAccountDetails_ShouldReturnAccountDetailsWhenAccountDetailsExistForGivenUserId()
 			throws JsonProcessingException {
-		AccountResponseData accountResData = mockTestData.getAccountResponseData();
-		final String BODY = objectMapper.writeValueAsString(accountResData);
+		List<AccountResponseData> accountResDataList = mockTestData.getAccountResponseDataList();
+		final String BODY = objectMapper.writeValueAsString(accountResDataList);
 		// @formatter:off
 		onRequest()
 			.havingMethodEqualTo("GET")			
-			.havingPathEqualTo("/accounts")
+			.havingPathEqualTo("/account-service/accounts")
 			.havingParameterEqualTo("userId", USER_ID)
 			.havingHeaderEqualTo("Accept", "application/json")					
 		.respond()
@@ -69,10 +71,10 @@ public class AccountProxyServiceImplTest {
 			.withBody(BODY)
 			.withContentType("application/json; charset=UTF-8");
 		// @formatter:on
-		accountProxyServiceImpl.setAccountServiceUrl("http://localhost:" + Jadler.port());
-		AccountResponseData account = accountProxyServiceImpl.getAccountDetail(101L);
-		assertThat(account).isNotNull();
-		assertThat(account.getAccountId()).isEqualTo(1000L);
+		accountProxyServiceImpl.setAccountServiceUrl("http://localhost:" + Jadler.port() + "/account-service");
+		List<AccountResponseData> accountResList = accountProxyServiceImpl.getAccountsDetail(101L);
+		assertThat(accountResList).isNotEmpty();
+		assertThat(accountResList.get(0).getAccountId()).isEqualTo(1000L);
 	}
 
 }

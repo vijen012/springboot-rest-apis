@@ -11,7 +11,7 @@ import com.restful.address.data.AddressDataMapper;
 @Component
 public class UserDataMapper {
 
-	public UserResponseData getUserResponseData(User user, AccountResponseData accountResponseData) {
+	public UserResponseData getUserResponseData(User user, List<AccountResponseData> accountResponseDataList) {
 		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		UserResponseData userResponseData = new UserResponseData();
 		userResponseData.setId(user.getId());
@@ -23,14 +23,14 @@ public class UserDataMapper {
 			userResponseData
 					.setAddressResponseDataList(addressDataMapper.getAddressResponseDataList(user.getAddressList()));
 		}
-		userResponseData.setAccountResponseData(accountResponseData);
+		userResponseData.setAccountResponseDataList(accountResponseDataList);
 		return userResponseData;
 	}
 
-	public List<UserResponseData> getUserResponseDataList(Map<User, AccountResponseData> userResponseDataMap) {
+	public List<UserResponseData> getUserResponseDataList(Map<User, List<AccountResponseData>> userResponseDataMap) {
 		AddressDataMapper addressDataMapper = new AddressDataMapper();
 		List<UserResponseData> userResponseDataList = new ArrayList<>();
-		userResponseDataMap.forEach((user, accountResponseData) -> {
+		userResponseDataMap.forEach((user, accountResponseDataList) -> {
 			UserResponseData userResponseData = new UserResponseData();
 			userResponseData.setId(user.getId());
 			userResponseData.setFirstName(user.getFirstName());
@@ -41,7 +41,7 @@ public class UserDataMapper {
 				userResponseData.setAddressResponseDataList(
 						addressDataMapper.getAddressResponseDataList(user.getAddressList()));
 			}
-			userResponseData.setAccountResponseData(accountResponseData);
+			userResponseData.setAccountResponseDataList(accountResponseDataList);
 			userResponseDataList.add(userResponseData);
 
 		});

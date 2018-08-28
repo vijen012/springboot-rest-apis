@@ -1,8 +1,11 @@
 package com.restful.user.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,17 +42,19 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 
 	@Override
 	@HystrixCommand(fallbackMethod = "fallbackGetAccountDetail", commandKey = "accountService")
-	public AccountResponseData getAccountDetail(Long userId) {
+	public List<AccountResponseData> getAccountsDetail(Long userId) {
 		logger.trace(userId + " Enter --->");
 		String url = accountServiceUrl + "/accounts?userId=" + userId;
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 //		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<AccountResponseData> responseEntity = null;
+		ResponseEntity<List<AccountResponseData>> responseEntity = null;
 		try {
 			logger.info("making a http request to account-request-data api for userId: " + userId);
-			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, AccountResponseData.class);
+			responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity,
+					new ParameterizedTypeReference<List<AccountResponseData>>() {
+					});
 		} catch (HttpClientErrorException ex) {
 			ResourceNotFoundException resourceNotFoundException = new ResourceNotFoundException(
 					"request resource url " + url + " doesn't exist");
@@ -61,7 +66,7 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 		return responseEntity.getBody();
 	}
 
-	private AccountResponseData fallbackGetAccountDetail(Long userId, Throwable cause) {
+	private List<AccountResponseData> fallbackGetAccountDetail(Long userId, Throwable cause) {
 		fallback(userId, cause);
 		return null;
 	}
@@ -76,6 +81,5 @@ public class AccountProxyServiceImpl implements AccountProxyService {
 			logger.error("userId: " + userId, cause);
 		}
 		logger.trace(userId + " <--- Exit");
-
 	}
 }

@@ -13,7 +13,7 @@
  
 # Database Details:
 Go to H2 Console- 
-http://localhost:7070/h2-console
+http://localhost:7070/user-service/h2-console
 
 create table user (id integer not null, birth_date date, name varchar(255), primary key (id))
 INSERT INTO USER VALUES(100, sysdate(), 'Jack');

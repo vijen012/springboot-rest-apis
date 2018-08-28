@@ -1,5 +1,7 @@
 package com.restful.account.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,18 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 
+	/*
+	 * @GetMapping(path = "/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
+	 * public ResponseEntity<AccountResponseData> getAccountDetails(
+	 * 
+	 * @RequestParam(value = "userId", required = true) Long userId) { return new
+	 * ResponseEntity<>(accountService.findAccount(userId), HttpStatus.OK); }
+	 */
+
 	@GetMapping(path = "/accounts", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<AccountResponseData> getAccountDetails(
+	public ResponseEntity<List<AccountResponseData>> getAccountsDetail(
 			@RequestParam(value = "userId", required = true) Long userId) {
-		return new ResponseEntity<>(accountService.findAccount(userId), HttpStatus.OK);
+		return new ResponseEntity<>(accountService.findAllAccount(userId), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/accounts", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
