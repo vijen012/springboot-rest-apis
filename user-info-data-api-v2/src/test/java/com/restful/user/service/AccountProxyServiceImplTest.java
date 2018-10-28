@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.restful.exception.ResourceNotFoundException;
 import com.restful.mock.MockTestData;
 import com.restful.user.data.AccountResponseData;
 
@@ -75,6 +76,26 @@ public class AccountProxyServiceImplTest {
 		List<AccountResponseData> accountResList = accountProxyServiceImpl.getAccountsDetail(101L);
 		assertThat(accountResList).isNotEmpty();
 		assertThat(accountResList.get(0).getAccountId()).isEqualTo(1000L);
+	}
+
+	@Test(expected = ResourceNotFoundException.class)
+	public void getAccountDetails_ShouldThrowResourceNotFoundExceptionWhenAccountServiceURLIsNotValid()
+			throws JsonProcessingException {
+		List<AccountResponseData> accountResDataList = mockTestData.getAccountResponseDataList();
+		final String BODY = objectMapper.writeValueAsString(accountResDataList);
+		// @formatter:off
+		onRequest()
+			.havingMethodEqualTo("GET")			
+			.havingPathEqualTo("/account-service/accounts")
+			.havingParameterEqualTo("userId", USER_ID)
+			.havingHeaderEqualTo("Accept", "application/json")					
+		.respond()
+			.withStatus(200)
+			.withBody(BODY)
+			.withContentType("application/json; charset=UTF-8");
+		// @formatter:on
+		accountProxyServiceImpl.setAccountServiceUrl("http://localhost:" + Jadler.port() + "/account-serviceeee");
+		accountProxyServiceImpl.getAccountsDetail(101L);
 	}
 
 }
